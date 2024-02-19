@@ -31,10 +31,6 @@ Pour chaque classe, entrez les limites et le nombre d'observations comme demand�
 
 ---
 
-Maintenant, passons à l'exercice que vous avez fourni. Veuillez me donner un moment pour préparer une explication étape par étape sur la façon d'utiliser votre programme pour résoudre cet exercice.
-
-Pour résoudre l'exercice donné en utilisant votre programme, suivez les étapes ci-dessous. L'exercice demande d'analyser la durée de vie de 1000 appareils électriques répartis en différentes classes, de calculer la distribution des fréquences relatives, la durée de vie moyenne, la variance, le coefficient de variation, et de construire des histogrammes et des box-plots, entre autres analyses.
-
 ### Étape 1 : Préparation des Données
 Avant de démarrer le programme, préparez vos données en fonction des classes de durée de vie données dans l'exercice :
 
