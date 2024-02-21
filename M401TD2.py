@@ -92,6 +92,21 @@ class Tab2:
         variance_y = sum((int(y) - moyenne_y) ** 2 * freq for y, freq in distribution_y.items()) / total_y
         return variance_y
 
+        
+    def moyenne_conditionnelleX(self):
+        moyennes_conditionnelles = {}
+        # Calculer la distribution marginale de Y pour connaître les totaux par Y
+        distribution_y = self.distribution_marginalesY()
+        for y in distribution_y:
+            total_freq_y = distribution_y[y]
+            moyenne_x_given_y = {}
+            for x in self.Tableau:
+                if y in self.Tableau[x]:
+                    freq = self.Tableau[x][y]
+                    moyenne_x_given_y[x] = int(x) * freq / total_freq_y  # Modifier ici pour inclure la pondération par la fréquence
+            # Calculer la moyenne conditionnelle de X sachant Y
+            moyennes_conditionnelles[y] = sum(moyenne_x_given_y.values())
+        return moyennes_conditionnelles
     
     def moyenne_conditionnelleY(self):
         moyennes_conditionnelles = {}
@@ -170,21 +185,6 @@ class Tab2:
             total_freq_x = sum(self.Tableau[x].values())
             distribution_cond[x] = {y: freq / total_freq_x for y, freq in self.Tableau[x].items()}
         return distribution_cond
-    
-    def moyenne_conditionnelleX(self):
-        moyennes_conditionnelles = {}
-        # Calculer la distribution marginale de Y pour connaître les totaux par Y
-        distribution_y = self.distribution_marginalesY()
-        for y in distribution_y:
-            total_freq_y = distribution_y[y]
-            moyenne_x_given_y = {}
-            for x in self.Tableau:
-                if y in self.Tableau[x]:
-                    freq = self.Tableau[x][y]
-                    moyenne_x_given_y[x] = int(x) * freq / total_freq_y  # Modifier ici pour inclure la pondération par la fréquence
-            # Calculer la moyenne conditionnelle de X sachant Y
-            moyennes_conditionnelles[y] = sum(moyenne_x_given_y.values())
-        return moyennes_conditionnelles
     
     def frequence_marginalesY(self) -> dict:
         print({y: str(sum(self.Tableau[x][y] for x in self.Tableau)) + "/{}".format(self.total) for y in self.Tableau[next(iter(self.Tableau))]})
