@@ -95,10 +95,17 @@ class Tab2:
     
     def moyenne_conditionnelleY(self):
         moyennes_conditionnelles = {}
-        for x in self.Tableau:
-            total_freq_x = sum(self.Tableau[x].values())
-            moyenne_y_sachant_x = sum(float(y) * freq for y, freq in self.Tableau[x].items()) / total_freq_x
-            moyennes_conditionnelles[x] = moyenne_y_sachant_x
+        # Calculer la distribution marginale de X pour connaître les totaux par X
+        distribution_x = self.distribution_marginalesX()
+        for x in distribution_x:
+            total_freq_x = distribution_x[x]
+            moyenne_y_given_x = {}
+            for y in self.Tableau[next(iter(self.Tableau))]:  # Utilisez la première clé Y pour parcourir toutes les valeurs de Y
+                if x in self.Tableau and y in self.Tableau[x]:
+                    freq = self.Tableau[x][y]
+                    moyenne_y_given_x[y] = int(y) * freq / total_freq_x  # Modifier ici pour inclure la pondération par la fréquence
+            # Calculer la moyenne conditionnelle de Y sachant X
+            moyennes_conditionnelles[x] = sum(moyenne_y_given_x.values())
         return moyennes_conditionnelles
 
         
@@ -174,9 +181,9 @@ class Tab2:
             for x in self.Tableau:
                 if y in self.Tableau[x]:
                     freq = self.Tableau[x][y]
-                    moyenne_x_given_y[x] = sum(int(x) * freq for x, freq in self.Tableau[x].items()) / total_freq_y
+                    moyenne_x_given_y[x] = int(x) * freq / total_freq_y  # Modifier ici pour inclure la pondération par la fréquence
             # Calculer la moyenne conditionnelle de X sachant Y
-            moyennes_conditionnelles[y] = moyenne_x_given_y
+            moyennes_conditionnelles[y] = sum(moyenne_x_given_y.values())
         return moyennes_conditionnelles
     
     def frequence_marginalesY(self) -> dict:
@@ -208,8 +215,8 @@ def main():
     while True:
         print("\nMenu:")
         print("1. Distribution marginales")
-        print("2. Moyenne")
-        print("3. Variance")
+        print("2. Moyenne global")
+        print("3. Variance global")
         print("4. Moyenne conditionnelle")
         print("5. Variance conditionnelle")
         print("6. Distribution conditionnelle")
